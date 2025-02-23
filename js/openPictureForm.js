@@ -1,8 +1,10 @@
-import { isEscapeKey } from './util.js';
 import { isValid } from './validation.js';
 import { reset as resetValidation } from './validation.js';
 import { reset as resetScale } from './scale.js';
-import {reset as resetEffects} from'./effects.js';
+import { reset as resetEffects} from'./effects.js';
+import { removeEscapeControl, setEscapeControl } from './escapeControl.js';
+import { sendData } from './server.js';
+import { showPopup } from './popup.js';
 
 const body = document.querySelector('body');
 const pictureForm = body.querySelector('.img-upload__form');
@@ -15,18 +17,7 @@ const formFields = pictureForm.querySelector('.img-upload__text');
 const hashtagsInput = formFields.querySelector('.text__hashtags');
 const commentInput = formFields.querySelector('.text__description');
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePictureForm();
-  }
-};
-
-const openPictureForm = () => {
-  pictureEditorForm.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
-};
+const closeFormFlag = () => !(document.activeElement === hashtagsInput || document.activeElement === commentInput);
 
 const closePictureForm = () => {
   pictureEditorForm.classList.add('hidden');
@@ -35,7 +26,12 @@ const closePictureForm = () => {
   resetValidation();
   resetScale();
   resetEffects();
-  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const openPictureForm = () => {
+  pictureEditorForm.classList.remove('hidden');
+  body.classList.add('modal-open');
+  setEscapeControl(closePictureForm, closeFormFlag);
 };
 
 pictureFormInput.addEventListener('change', ()=>{
@@ -45,23 +41,20 @@ pictureFormInput.addEventListener('change', ()=>{
 cancelFormButton.addEventListener('click', (evt)=>{
   evt.preventDefault();
   closePictureForm();
+  removeEscapeControl();
 });
 
 pictureForm.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   if (isValid) {
-    console.log('Можно отправлять');
-  }
-});
-
-hashtagsInput.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
-  }
-});
-
-commentInput.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.stopPropagation();
+    sendData(new FormData(evt.target))
+      .then(()=>{
+        closePictureForm ();
+        removeEscapeControl();
+        showPopup('success');
+      })
+      .catch(() => {
+        showPopup('error');
+      });
   }
 });

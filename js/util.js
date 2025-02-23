@@ -1,3 +1,5 @@
+import { ALERT_SHOW_TIME } from './constants.js';
+
 const getRandomNumber = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -28,3 +30,12 @@ export const isEscapeKey = (evt) => evt.key === 'Escape';
 export const isEnterKey = (evt) => evt.key === 'Enter';
 
 export {getRandomNumber, getRandomId, getRandomArrayElement};
+
+export const showAlert = () => {
+  const dataErrorTemplate = document.querySelector('#data-error').content.querySelector('.data-error');
+  const dataErrorAlert = dataErrorTemplate.cloneNode(true);
+  document.body.append(dataErrorAlert);
+  setTimeout(() => {
+    dataErrorAlert.remove();
+  }, ALERT_SHOW_TIME);
+};

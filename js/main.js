@@ -1,8 +1,13 @@
-import { PHOTONUMBERS } from './constants.js';
-import { createPhotoesData } from './createPictures.js';
 import './openPictureForm.js';
 import { renderPictures } from './renderPictures.js';
+import { getData } from './server.js';
+import { showAlert } from './util.js';
 
-
-const picturesList = createPhotoesData(PHOTONUMBERS);
-renderPictures(picturesList);
+getData()
+  .then((picturesList) => {
+    renderPictures(picturesList);
+  })
+  .catch(() => {
+    showAlert();
+  }
+  );
