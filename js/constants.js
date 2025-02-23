@@ -62,3 +62,5 @@ export const EFFECTS_SETTINGS = {
     units: ''
   }
 };
+
+export const ALERT_SHOW_TIME = 5000;
