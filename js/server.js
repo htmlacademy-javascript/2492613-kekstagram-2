@@ -1,4 +1,6 @@
-export const getData = () => fetch('https://31.javascript.htmlacademy.pro/kekstagram/data')
+import { SERVER_HOST } from './constants.js';
+
+export const getData = () => fetch(SERVER_HOST.GET)
   .then((response) => {
     if (!response.ok) {
       throw new Error();
@@ -7,7 +9,7 @@ export const getData = () => fetch('https://31.javascript.htmlacademy.pro/keksta
   });
 
 export const sendData = (body) => fetch(
-  'https://31.javascript.htmlacademy.pro/kekstagram',
+  SERVER_HOST.SEND,
   {
     method: 'POST',
     body,
