@@ -64,3 +64,11 @@ export const EFFECTS_SETTINGS = {
 };
 
 export const ALERT_SHOW_TIME = 5000;
+export const TIMEOUT_DELAY = 500;
+export const RANDOM_COUNT = 10;
+
+export const Filters = {
+  DEFAULT: 'filter-default',
+  DISCUSSED: 'filter-discussed',
+  RANDOM: 'filter-random'
+};

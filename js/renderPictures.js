@@ -6,8 +6,16 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 
 let localData;
 
+const clearPictures = () => {
+  const currentPictures = document.querySelectorAll('.picture');
+  if (currentPictures) {
+    currentPictures.forEach((element) => element.remove());
+  }
+};
+
 export const renderPictures = (pictures) => {
   localData = [...pictures];
+  clearPictures();
   const picturesFragment = document.createDocumentFragment();
 
   pictures.forEach((element) => {
