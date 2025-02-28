@@ -1,4 +1,9 @@
-export const PHOTONUMBERS = 25;
+export const SERVER_HOST = {
+  SEND: 'https://31.javascript.htmlacademy.pro/kekstagram',
+  GET: 'https://31.javascript.htmlacademy.pro/kekstagram/data',
+};
+
+export const PHOTO_TYPES = ['.jpg', '.jpeg', '.png'];
 export const COMMENTS_STEP = 5;
 export const VALID_HASHTAG = /^#[a-zа-яё0-9]{1,19}$/i;
 export const MAX_NUMBER_HASHTAG = 5;
@@ -71,4 +76,14 @@ export const Filters = {
   DEFAULT: 'filter-default',
   DISCUSSED: 'filter-discussed',
   RANDOM: 'filter-random'
+};
+
+export const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикуем'
+};
+
+export const Popups = {
+  SUCCESS: 'success',
+  ERROR: 'error'
 };

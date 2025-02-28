@@ -5,6 +5,8 @@ import { reset as resetEffects} from'./effects.js';
 import { removeEscapeControl, setEscapeControl } from './escapeControl.js';
 import { sendData } from './server.js';
 import { showPopup } from './popup.js';
+import { getPicture } from './getPicture.js';
+import { Popups, SubmitButtonText } from './constants.js';
 
 const body = document.querySelector('body');
 const pictureForm = body.querySelector('.img-upload__form');
@@ -35,6 +37,7 @@ const openPictureForm = () => {
 };
 
 pictureFormInput.addEventListener('change', ()=>{
+  getPicture();
   openPictureForm();
 });
 
@@ -44,17 +47,26 @@ cancelFormButton.addEventListener('click', (evt)=>{
   removeEscapeControl();
 });
 
+const blockSubmitButton = (isBlocked = true) => {
+  submitFormButton.disabled = isBlocked;
+  submitFormButton.textContent = isBlocked ? SubmitButtonText.SENDING : SubmitButtonText.IDLE;
+};
+
 pictureForm.addEventListener('submit', (evt)=>{
   evt.preventDefault();
-  if (isValid) {
+  if (isValid()) {
+    blockSubmitButton();
     sendData(new FormData(evt.target))
       .then(()=>{
         closePictureForm ();
         removeEscapeControl();
-        showPopup('success');
+        showPopup(Popups.SUCCESS);
       })
       .catch(() => {
-        showPopup('error');
+        showPopup(Popups.ERROR);
+      })
+      .finally(() => {
+        blockSubmitButton(false);
       });
   }
 });
