@@ -12,19 +12,19 @@ const render = () => {
   picturePreview.style.transform = `scale(${currentScale * SCALE_FACTOR})`;
 };
 
-const increasePicture = () => {
+const onScaleIncreaserClick = () => {
   currentScale = Math.min(currentScale + SCALE_STEP, MAX_SCALE);
   render();
 };
 
-const decreasePicture = () => {
+const onScaleDecreaserClick = () => {
   currentScale = Math.max(currentScale - SCALE_STEP, MIN_SCALE);
   render();
 };
 
-scaleControlIncrease.addEventListener('click', increasePicture);
+scaleControlIncrease.addEventListener('click', onScaleIncreaserClick);
 
-scaleControlDecrease.addEventListener('click', decreasePicture);
+scaleControlDecrease.addEventListener('click', onScaleDecreaserClick);
 
 export const reset = () => {
   currentScale = MAX_SCALE;
